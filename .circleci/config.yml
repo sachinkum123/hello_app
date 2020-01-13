@@ -1,0 +1,31 @@
+version: 2
+
+deploy:
+  docker:
+    - image: circleci/ruby 2.6.3p62
+
+  working_directory: ~/repos/hello_app
+
+  steps:
+    - checkout
+    - run:
+        name: Setup Rubygems
+        command: bash .circleci/setup-rubygems.sh
+
+    - run:
+        name: Publish to Rubygems
+        command: |
+          gem build hello_app.gemspec
+          gem push "hello_app-$(git describe --tags).gem"
+
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/

@@ -2,9 +2,9 @@ version: 2
 
 deploy:
   docker:
-    - image: circleci/ruby 2.6.3p62
+    - image: circleci/ruby:2.4.1-node-browsers
 
-  working_directory: ~/repos/hello_app
+  working_directory: ~/repo
 
   steps:
     - checkout
